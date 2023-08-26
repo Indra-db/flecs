@@ -1925,6 +1925,23 @@ void flecs_process_empty_queries(
     flecs_defer_end(world, &world->stages[0]);
 }
 
+static
+bool flecs_table_records_update_empty(
+    ecs_table_t *table)
+{
+    bool result = false;
+    bool is_empty = ecs_table_count(table) == 0;
+
+    int32_t i, count = table->_->record_count;
+    for (i = 0; i < count; i ++) {
+        ecs_table_record_t *tr = &table->_->records[i];
+        ecs_table_cache_t *cache = tr->hdr.cache;
+        result |= ecs_table_cache_set_empty(cache, table, is_empty);
+    }
+
+    return result;
+}
+
 /** Walk over tables that had a state change which requires bookkeeping */
 void flecs_process_pending_tables(
     const ecs_world_t *world_r)

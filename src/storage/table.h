@@ -120,27 +120,6 @@ ecs_entity_t* flecs_table_entities_array(
 ecs_record_t** flecs_table_records_array(
     const ecs_table_t *table);
 
-/** Copy type. */
-ecs_type_t flecs_type_copy(
-    ecs_world_t *world,
-    const ecs_type_t *src);
-
-/** Free type. */
-void flecs_type_free(
-    ecs_world_t *world,
-    ecs_type_t *type);
-
-/** Find or create table for a set of components */
-ecs_table_t* flecs_table_find_or_create(
-    ecs_world_t *world,
-    ecs_type_t *type);
-
-/* Initialize columns for data */
-void flecs_table_init_data(
-    ecs_world_t *world,
-    ecs_table_t *table,
-    int32_t column_count);
-
 /* Clear all entities from a table. */
 void flecs_table_clear_entities(
     ecs_world_t *world,
@@ -150,12 +129,6 @@ void flecs_table_clear_entities(
 void flecs_table_reset(
     ecs_world_t *world,
     ecs_table_t *table);
-
-/* Clear table data. Don't call OnRemove handlers. */
-void flecs_table_clear_data(
-    ecs_world_t *world,
-    ecs_table_t *table,
-    ecs_data_t *data);
 
 /* Add a new entry to the table for the specified entity */
 int32_t flecs_table_append(
@@ -173,10 +146,6 @@ void flecs_table_delete(
     int32_t index,
     bool destruct);
 
-/* Make sure table records are in correct table cache list */
-bool flecs_table_records_update_empty(
-    ecs_table_t *table);
-
 /* Move a row from one table to another */
 void flecs_table_move(
     ecs_world_t *world,
@@ -193,16 +162,8 @@ void flecs_table_move(
 int32_t flecs_table_appendn(
     ecs_world_t *world,
     ecs_table_t *table,
-    ecs_data_t *data,
     int32_t count,
     const ecs_entity_t *ids);
-
-/* Set table to a fixed size. Useful for preallocating memory in advance. */
-void flecs_table_set_size(
-    ecs_world_t *world,
-    ecs_table_t *table,
-    ecs_data_t *data,
-    int32_t count);
 
 /* Shrink table to contents */
 bool flecs_table_shrink(
@@ -237,9 +198,7 @@ void flecs_table_free_type(
 void flecs_table_merge(
     ecs_world_t *world,
     ecs_table_t *new_table,
-    ecs_table_t *old_table,
-    ecs_data_t *new_data,
-    ecs_data_t *old_data);
+    ecs_table_t *old_table);
 
 void flecs_table_swap(
     ecs_world_t *world,
