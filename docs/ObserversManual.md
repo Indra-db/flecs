@@ -50,7 +50,7 @@ world.entity().set(Position{10, 20}); // Invokes observer
 </li>
 <li><b class="tab-title">C#</b>
 
-<pre><code class="language-cpp">
+```cs
 // Create observer that is invoked whenever Position is set
 world.Observer<Position>()
     .Event(Ecs.OnSet)
@@ -60,7 +60,7 @@ world.Observer<Position>()
     });
 
 world.Entity().Set(new Position(10, 20)); // Invokes observer
-</code></pre>
+```
 
 </li>
 <li><b class="tab-title">Rust</b>
@@ -68,10 +68,10 @@ world.Entity().Set(new Position(10, 20)); // Invokes observer
 ```rust
 // Create observer that is invoked whenever Position is set
 world
-.observer::<flecs::OnSet, &Position>()
-.each_entity(|e, p| {
-println!("Position set: {{ {}, {} }}", p.x, p.y);
-});
+    .observer::<flecs::OnSet, &Position>()
+    .each_entity(|e, p| {
+        println!("Position set: {{ {}, {} }}", p.x, p.y);
+    });
 
 world.entity().set(Position { x: 10.0, y: 20.0 }); // Invokes observer
 ```
@@ -163,7 +163,7 @@ e.add<Position>();
 </li>
 <li><b class="tab-title">C#</b>
 
-<pre><code class="language-cpp">
+```cs
 Entity e = world.Entity();
 
 // OnAdd observer fires
@@ -171,7 +171,7 @@ e.Add<Position>();
 
 // OnAdd observer doesn't fire, entity already has component
 e.Add<Position>();
-</code></pre>
+```
 
 </li>
 <li><b class="tab-title">Rust</b>
@@ -225,7 +225,7 @@ e.set(Position{10, 20});
 </li>
 <li><b class="tab-title">C#</b>
 
-<pre><code class="language-cpp">
+```cs
 Entity e = world.Entity();
 
 // OnAdd observer fires first, then OnSet observer fires
@@ -233,7 +233,7 @@ e.Set(new Position(10, 20));
 
 // OnAdd observer doesn't fire, OnSet observer fires
 e.Set(new Position(10, 20));
-</code></pre>
+```
 
 </li>
 <li><b class="tab-title">Rust</b>
@@ -283,12 +283,12 @@ flecs::entity i = world.entity().is_a(p);
 </li>
 <li><b class="tab-title">C#</b>
 
-<pre><code class="language-cpp">
+```cs
 Entity p = world.Prefab().Set(new Position(10, 20));
 
 // Produces OnSet event for Position
 Entity i = world.Entity().IsA(p);
-</code></pre>
+```
 
 </li>
 <li><b class="tab-title">Rust</b>
@@ -348,7 +348,7 @@ i.remove<Position>();
 </li>
 <li><b class="tab-title">C#</b>
 
-<pre><code class="language-cpp">
+```cs
 Entity p = world.Prefab().Set(new Position(10, 20));
 
 // Produces OnSet event for inherited Position component
@@ -359,7 +359,7 @@ i.Set(new Position(20, 30));
 
 // Reexposes inherited component, produces OnSet event
 i.Remove<Position>();
-</code></pre>
+```
 
 </li>
 <li><b class="tab-title">Rust</b>
@@ -411,12 +411,12 @@ flecs::entity i = world.entity().is_a(p);
 </li>
 <li><b class="tab-title">C#</b>
 
-<pre><code class="language-cpp">
+```cs
 Entity p = world.Prefab().Set(new Position(10, 20));
 
 // Produces OnSet event for Position
 Entity i = world.Entity().IsA(p);
-</code></pre>
+```
 
 </li>
 <li><b class="tab-title">Rust</b>
@@ -465,7 +465,7 @@ e.remove<Position>();
 </li>
 <li><b class="tab-title">C#</b>
 
-<pre><code class="language-cpp">
+```cs
 Entity e = world.Entity().Set(new Position(10, 20));
 
 // OnRemove observer fires
@@ -473,7 +473,7 @@ e.Remove<Position>();
 
 // OnRemove observer doesn't fire, entity doesn't have the component
 e.Remove<Position>();
-</code></pre>
+```
 
 </li>
 <li><b class="tab-title">Rust</b>
@@ -524,7 +524,7 @@ world.observer<Position>()
 </li>
 <li><b class="tab-title">C#</b>
 
-<pre><code class="language-cpp">
+```cs
 // Observer that listens for both OnAdd and OnRemove events
 world.Observer<Position>()
     .Event(Ecs.OnAdd)
@@ -533,7 +533,7 @@ world.Observer<Position>()
     {
         // ...
     });
-</code></pre>
+```
 
 </li>
 <li><b class="tab-title">Rust</b>
@@ -541,9 +541,9 @@ world.Observer<Position>()
 ```rust
 // Observer that listens for both OnAdd and OnRemove events
 world
-.observer::<flecs::OnAdd, &Position>()
-.add_event::<flecs::OnRemove>()
-.each_entity(|e, p| {
+    .observer::<flecs::OnAdd, &Position>()
+    .add_event::<flecs::OnRemove>()
+    .each_entity(|e, p| {
 // ...
 });
 ```
@@ -587,7 +587,7 @@ world.observer<Position>()
 </li>
 <li><b class="tab-title">C#</b>
 
-<pre><code class="language-cpp">
+```cs
 world.Observer<Position>()
     .Event(Ecs.OnAdd)
     .Event(Ecs.OnRemove)
@@ -599,22 +599,22 @@ world.Observer<Position>()
             // ...
         }
     });
-</code></pre>
+```
 
 </li>
 <li><b class="tab-title">Rust</b>
 
 ```rust
 world
-.observer::<flecs::OnAdd, &Position>()
-.add_event::<flecs::OnRemove>()
-.each_iter(|it, i, p| {
-if it.event() == flecs::OnAdd::ID {
-// ...
-} else if it.event() == flecs::OnRemove::ID {
-// ...
-}
-});
+    .observer::<flecs::OnAdd, &Position>()
+    .add_event::<flecs::OnRemove>()
+    .each_iter(|it, i, p| {
+        if it.event() == flecs::OnAdd::ID {
+        // ...
+        } else if it.event() == flecs::OnRemove::ID {
+        // ...
+        }
+    });
 ```
 
 </li>
@@ -651,7 +651,7 @@ world.observer<Position>()
 </li>
 <li><b class="tab-title">C#</b>
 
-<pre><code class="language-cpp">
+```cs
 // Observer that listens for all events for Position
 world.Observer<Position>()
     .Event(Ecs.Wildcard)
@@ -659,7 +659,7 @@ world.Observer<Position>()
     {
         // ...
     });
-</code></pre>
+```
 
 </li>
 <li><b class="tab-title">Rust</b>
@@ -667,10 +667,10 @@ world.Observer<Position>()
 ```rust
 // Observer that listens for all events for Position
 world
-.observer::<flecs::Wildcard, &Position>()
-.each_entity(|e, p| {
-// ...
-});
+    .observer::<flecs::Wildcard, &Position>()
+    .each_entity(|e, p| {
+        // ...
+    });
 ```
 
 </li>
@@ -717,7 +717,7 @@ world.observer<Position, Velocity>()
 </li>
 <li><b class="tab-title">C#</b>
 
-<pre><code class="language-cpp">
+```cs
 // Observer that listens for entities with both Position and Velocity
 world.Observer<Position, Velocity>()
     .Event(Ecs.OnAdd)
@@ -725,7 +725,7 @@ world.Observer<Position, Velocity>()
     {
         // ...
     });
-</code></pre>
+```
 
 </li>
 <li><b class="tab-title">Rust</b>
@@ -733,10 +733,10 @@ world.Observer<Position, Velocity>()
 ```rust
 // Observer that listens for entities with both Position and Velocity
 world
-.observer::<flecs::OnAdd, (&Position, &Velocity)>()
-.each_entity(|e, (p, v)| {
-// ...
-});
+    .observer::<flecs::OnAdd, (&Position, &Velocity)>()
+    .each_entity(|e, (p, v)| {
+        // ...
+    });
 ```
 
 </li>
@@ -775,7 +775,7 @@ e.add<Velocity>();
 </li>
 <li><b class="tab-title">C#</b>
 
-<pre><code class="language-cpp">
+```cs
 Entity e = world.Entity();
 
 // Does not trigger "Position, Velocity" observer
@@ -783,7 +783,7 @@ e.Add<Position>();
 
 // Entity now matches "Position, Velocity" query, triggers observer
 e.Add<Velocity>();
-</code></pre>
+```
 
 </li>
 <li><b class="tab-title">Rust</b>
@@ -861,7 +861,7 @@ e.set(Position{20, 30});
 </li>
 <li><b class="tab-title">C#</b>
 
-<pre><code class="language-cpp">
+```cs
 // Observer that only triggers on Position, not on Velocity
 world.Observer<Position>()
     .With<Velocity>().Filter()
@@ -881,7 +881,7 @@ e.Set(new Velocity(1, 2));
 
 // Triggers, entity now matches observer query
 e.Set(new Velocity(20, 30));
-</code></pre>
+```
 
 </li>
 <li><b class="tab-title">Rust</b>
@@ -889,12 +889,12 @@ e.Set(new Velocity(20, 30));
 ```rust
 // Observer that only triggers on Position, not on Velocity
 world
-.observer::<flecs::OnAdd, &Position>()
-.with::<Velocity>()
-.filter()
-.each_entity(|e, p| {
-// ...
-});
+    .observer::<flecs::OnAdd, &Position>()
+    .with::<Velocity>()
+    .filter()
+    .each_entity(|e, p| {
+        // ...
+    });
 
 let e = world.entity();
 
@@ -969,7 +969,7 @@ e.set(Position{20, 30});
 </li>
 <li><b class="tab-title">C#</b>
 
-<pre><code class="language-cpp">
+```cs
 // OnSet observer with both component and tag
 world.Observer<Position>()
     .with<Npc>() // Tag
@@ -989,7 +989,7 @@ e.Add<Npc>();
 
 // Produces an OnSet event & triggers observer
 e.Set(new Position(20, 30));
-</code></pre>
+```
 
 </li>
 <li><b class="tab-title">Rust</b>
@@ -997,11 +997,11 @@ e.Set(new Position(20, 30));
 ```rust
 // OnSet observer with both component and tag
 world
-.observer::<flecs::OnSet, &Position>()
-.with::<Npc>() // Tag
-.each_entity(|e, p| {
-// ...
-});
+    .observer::<flecs::OnSet, &Position>()
+    .with::<Npc>() // Tag
+    .each_entity(|e, p| {
+        // ...
+    });
 
 let e = world.entity();
 
@@ -1076,7 +1076,7 @@ e.remove<Velocity>();
 </li>
 <li><b class="tab-title">C#</b>
 
-<pre><code class="language-cpp">
+```cs
 // Observer with a Not term
 world.Observer<Position>()
     .Without<Velocity>()
@@ -1096,7 +1096,7 @@ e.Set(new Velocity(1, 2));
 
 // Triggers the observer, as the Velocity term was inverted to OnRemove
 e.Remove<Velocity>();
-</code></pre>
+```
 
 </li>
 <li><b class="tab-title">Rust</b>
@@ -1104,11 +1104,11 @@ e.Remove<Velocity>();
 ```rust
 // Observer with a Not term
 world
-.observer::<flecs::OnAdd, &Position>()
-.without::<Velocity>()
-.each_entity(|e, p| {
-// ...
-});
+    .observer::<flecs::OnAdd, &Position>()
+    .without::<Velocity>()
+    .each_entity(|e, p| {
+        // ...
+    });
 
 let e = world.entity();
 
@@ -1202,7 +1202,7 @@ e.remove<Position>();
 </li>
 <li><b class="tab-title">C#</b>
 
-<pre><code class="language-cpp">
+```cs
 // Monitor observer
 world.Observer<Position, Velocity>()
     .Event(flecs::Monitor)
@@ -1225,7 +1225,7 @@ e.Set(new Velocity(1, 2));
 
 // Entity no longer matches, triggers monitor with OnRemove event
 e.Remove<Velocity>();
-</code></pre>
+```
 
 </li>
 <li><b class="tab-title">Rust</b>
@@ -1233,14 +1233,14 @@ e.Remove<Velocity>();
 ```rust
 // Monitor observer
 world
-.observer::<flecs::Monitor, (&Position, &Velocity)>()
-.each_iter(|it, i, (p, v)| {
-if it.event() == flecs::OnAdd::ID {
-// Entity started matching query
-} else if it.event() == flecs::OnRemove::ID {
-// Entity stopped matching query
-}
-});
+    .observer::<flecs::Monitor, (&Position, &Velocity)>()
+    .each_iter(|it, i, (p, v)| {
+        if it.event() == flecs::OnAdd::ID {
+            // Entity started matching query
+        } else if it.event() == flecs::OnRemove::ID {
+            // Entity stopped matching query
+        }
+    });
 
 let e = world.entity();
 
@@ -1320,7 +1320,7 @@ flecs::entity e2 = world.entity().set(Position{10, 20});
 </li>
 <li><b class="tab-title">C#</b>
 
-<pre><code class="language-cpp">
+```cs
 // Entity created before the observer
 Entity e1 = world.Entity().Set(new Position(10, 20));
 
@@ -1337,7 +1337,7 @@ world.Observer<Position, Velocity>()
 
 // Fires observer as usual
 Entity e2 = world.Entity().Set(new Position(10, 20));
-</code></pre>
+```
 
 </li>
 <li><b class="tab-title">Rust</b>
@@ -1348,11 +1348,11 @@ let e1 = world.entity().set(Position { x: 10.0, y: 20.0 });
 
 // Yield existing observer
 world
-.observer::<flecs::OnAdd, (&Position, &Velocity)>()
-.yield_existing()
-.each_iter(|it, i, (p, v)| {
-// ...
-});
+    .observer::<flecs::OnAdd, (&Position, &Velocity)>()
+    .yield_existing()
+    .each_iter(|it, i, (p, v)| {
+        // ...
+    });
 
 // Observer is invoked for e1
 
@@ -1416,7 +1416,7 @@ flecs::entity e = world.entity().set(TimeOfDay{0});
 </li>
 <li><b class="tab-title">C#</b>
 
-<pre><code class="language-cpp">
+```cs
 // Entity used for fixed source
 Entity Game = world.Entity().Set(new TimeOfDay(0));
 
@@ -1434,7 +1434,7 @@ Game.Set(new TimeOfDay(1));
 
 // Does not trigger observer
 Entity e = world.Entity().Set(new TimeOfDay(0));
-</code></pre>
+```
 
 </li>
 <li><b class="tab-title">Rust</b>
@@ -1445,12 +1445,12 @@ let game = world.entity().set(TimeOfDay { value: 0.0 });
 
 // Observer with fixed source
 world
-.observer::<flecs::OnSet, &TimeOfDay>()
-.term_at(0)
-.set_src_id(game) // Match TimeOfDay on game
-.each_iter(|it, i, time| {
-// ...
-});
+    .observer::<flecs::OnSet, &TimeOfDay>()
+    .term_at(0)
+    .set_src_id(game) // Match TimeOfDay on game
+    .each_iter(|it, i, time| {
+        // ...
+    });
 
 // Triggers observer
 game.set(TimeOfDay { value: 1.0 });
@@ -1515,7 +1515,7 @@ flecs::entity e = world.entity().set(TimeOfDay{0});
 </li>
 <li><b class="tab-title">C#</b>
 
-<pre><code class="language-cpp">
+```cs
 world.Set(new TimeOfDay(0));
 
 // Observer with singleton source
@@ -1532,7 +1532,7 @@ world.Set(new TimeOfDay(1));
 
 // Does not trigger observer
 Entity e = world.Entity().Set(new TimeOfDay(0));
-</code></pre>
+```
 
 </li>
 <li><b class="tab-title">Rust</b>
@@ -1542,12 +1542,12 @@ world.set(TimeOfDay { value: 0.0 });
 
 // Observer with singleton source
 world
-.observer::<flecs::OnSet, &TimeOfDay>()
-.term_at(0)
-.singleton()
-.each_iter(|it, i, time| {
-// ...
-});
+    .observer::<flecs::OnSet, &TimeOfDay>()
+    .term_at(0)
+    .singleton()
+    .each_iter(|it, i, time| {
+        // ...
+    });
 
 // Triggers observer
 world.set(TimeOfDay { value: 1.0 });
@@ -1606,7 +1606,7 @@ parent.set(Position{10, 20});
 </li>
 <li><b class="tab-title">C#</b>
 
-<pre><code class="language-cpp">
+```cs
 // Create an observer that matches OnSet(Position) events on self and a parent
 world.Observer<Position>()
     .TermAt(0).Self().Up()  // .Trav(Ecs.ChildOf) (default)
@@ -1621,7 +1621,7 @@ Entity child = world.Entity().ChildOf(parent);
 
 // Invokes observer twice: once for the parent and once for the child
 parent.Set(new Position(10, 20));
-</code></pre>
+```
 
 </li>
 <li><b class="tab-title">Rust</b>
@@ -1629,13 +1629,13 @@ parent.Set(new Position(10, 20));
 ```rust
 // Create an observer that matches OnSet(Position) events on self and a parent
 world
-.observer::<flecs::OnSet, &Position>()
-.term_at(0)
-.self_()
-.up() // .trav(flecs::ChildOf) (default)
-.each_entity(|e, p| {
-// ...
-});
+    .observer::<flecs::OnSet, &Position>()
+    .term_at(0)
+    .self_()
+    .up() // .trav(flecs::ChildOf) (default)
+    .each_entity(|e, p| {
+        // ...
+    });
 
 let parent = world.entity();
 let child = world.entity().child_of_id(parent);
@@ -1698,7 +1698,7 @@ flecs::entity child = world.entity().child_of(parent);
 </li>
 <li><b class="tab-title">C#</b>
 
-<pre><code class="language-cpp">
+```cs
 // Create an observer that matches OnAdd(Position) events on a parent
 world.Observer<Position>()
     .TermAt(0).Up() // .Trav(Ecs.ChildOf) (default)
@@ -1712,7 +1712,7 @@ Entity parent = world.Entity().Set(new Position(10, 20));
 
 // Forwards OnAdd event for Position to child
 Entity child = world.Entity().ChildOf(parent);
-</code></pre>
+```
 
 </li>
 <li><b class="tab-title">Rust</b>
@@ -1720,12 +1720,12 @@ Entity child = world.Entity().ChildOf(parent);
 ```rust
 // Create an observer that matches OnAdd(Position) events on a parent
 world
-.observer::<flecs::OnAdd, &Position>()
-.term_at(0)
-.up() // .trav(flecs::ChildOf) (default)
-.each_entity(|e, p| {
-// ...
-});
+    .observer::<flecs::OnAdd, &Position>()
+    .term_at(0)
+    .up() // .trav(flecs::ChildOf) (default)
+    .each_entity(|e, p| {
+        // ...
+    });
 
 let parent = world.entity().set(Position { x: 10.0, y: 20.0 });
 
@@ -1817,7 +1817,7 @@ world.emit<Synchronized>()
 </li>
 <li><b class="tab-title">C#</b>
 
-<pre><code class="language-cpp">
+```cs
 // Create a custom event
 file struct Synchronized;
 
@@ -1839,7 +1839,7 @@ world.Emit<Synchronized>()
     .Id<Position>()
     .Entity(e)
     .Emit();
-</code></pre>
+```
 
 </li>
 <li><b class="tab-title">Rust</b>
@@ -1854,8 +1854,8 @@ struct Synchronized;
 
 // Create an observer that matches a custom event
 world
-.observer::<Synchronized, &Position>()
-.each_entity(|e, p| {
+    .observer::<Synchronized, &Position>()
+    .each_entity(|e, p| {
 // ...
 });
 
@@ -1863,10 +1863,10 @@ let e = world.entity().set(Position { x: 10.0, y: 20.0 });
 
 // Emit custom event
 world
-.event()
-.add::<Position>()
-.entity(e)
-.emit(&Synchronized);
+    .event()
+    .add::<Position>()
+    .entity(e)
+    .emit(&Synchronized);
 ```
 
 </li>
@@ -1926,7 +1926,7 @@ widget.emit<Clicked>();
 </li>
 <li><b class="tab-title">C#</b>
 
-<pre><code class="language-cpp">
+```cs
 // Create a custom event
 file struct Clicked;
 
@@ -1940,7 +1940,7 @@ widget.Observe<Click>(() =>
 });
 
 widget.Emit<Clicked>();
-</code></pre>
+```
 
 </li>
 <li><b class="tab-title">Rust</b>
@@ -1955,7 +1955,7 @@ let widget = world.entity_named("widget");
 
 // Create an entity observer
 widget.observe::<Clicked>(|| {
-// ...
+    // ...
 });
 
 // Emit entity event
@@ -2022,7 +2022,7 @@ widget.emit<Resize>({100, 200});
 </li>
 <li><b class="tab-title">C#</b>
 
-<pre><code class="language-cpp">
+```cs
 // Create a custom event
 file record struct Resize(double Width, double Height);
 
@@ -2036,7 +2036,7 @@ widget.Observe<Resize>((ref Resize r) =>
 });
 
 widget.Emit<Resize>(new(100, 200));
-</code></pre>
+```
 
 </li>
 <li><b class="tab-title">Rust</b>
@@ -2045,8 +2045,8 @@ widget.Emit<Resize>(new(100, 200));
 // Create a custom event
 #[derive(Component)]
 struct Resize {
-width: u32,
-height: u32,
+    width: u32,
+    height: u32,
 }
 
 // Create entity
@@ -2120,7 +2120,7 @@ world.defer_end();
 </li>
 <li><b class="tab-title">C#</b>
 
-<pre><code class="language-cpp">
+```cs
 world.Observer<Position>()
     .Event(flecs::OnSet)
     .Each((Iter it, int i, ref Position p) =>
@@ -2135,17 +2135,17 @@ world.DeferBegin();
 e.Set(new Position(20, 30));
 // Operation is delayed until here, observer is also invoked here
 world.DeferEnd();
-</code></pre>
+```
 
 </li>
 <li><b class="tab-title">Rust</b>
 
 ```rust
 world
-.observer::<flecs::OnSet, &Position>()
-.each_entity(|e, p| {
-// ...
-});
+    .observer::<flecs::OnSet, &Position>()
+    .each_entity(|e, p| {
+        // ...
+    });
 
 // Observer is invoked as part of operation
 e.set(Position { x: 10.0, y: 20.0 });
