@@ -2932,7 +2932,7 @@ void flecs_tables_resize_column_locks(
     ecs_query_fini(q);
 }
 
-FLECS_ALWAYS_INLINE int32_t flecs_table_column_lock_inc(
+int32_t flecs_table_column_lock_inc(
     ecs_table_t *table,
     const int16_t column_index)
 {
@@ -2941,7 +2941,7 @@ FLECS_ALWAYS_INLINE int32_t flecs_table_column_lock_inc(
     return ++table->column_lock[ column_index ];
 }
 
-FLECS_ALWAYS_INLINE int32_t flecs_table_column_lock_inc_multithreaded(
+int32_t flecs_table_column_lock_inc_multithreaded(
     ecs_table_t *table,
     const int16_t column_index,
     const int32_t stage_id
@@ -2952,7 +2952,7 @@ FLECS_ALWAYS_INLINE int32_t flecs_table_column_lock_inc_multithreaded(
     return ecs_os_ainc(&table->column_lock[ column_index + (stage_id * table->column_count) ]);
 }
 
-FLECS_ALWAYS_INLINE int32_t flecs_table_column_lock_dec(
+int32_t flecs_table_column_lock_dec(
     ecs_table_t *table,
     const int16_t column_index)
 {
@@ -2961,7 +2961,7 @@ FLECS_ALWAYS_INLINE int32_t flecs_table_column_lock_dec(
     return --table->column_lock[ column_index ];
 }
 
-FLECS_ALWAYS_INLINE int32_t flecs_table_column_lock_dec_multithreaded(
+int32_t flecs_table_column_lock_dec_multithreaded(
     ecs_table_t *table,
     const int16_t column_index,
     const int32_t stage_id
@@ -2972,7 +2972,7 @@ FLECS_ALWAYS_INLINE int32_t flecs_table_column_lock_dec_multithreaded(
     return ecs_os_adec(&table->column_lock[ column_index + (stage_id * table->column_count) ]);
 }
 
-FLECS_ALWAYS_INLINE bool flecs_table_column_lock_read_begin(
+bool flecs_table_column_lock_read_begin(
     ecs_table_t *table,
     const int16_t column_index
     )
@@ -2980,7 +2980,7 @@ FLECS_ALWAYS_INLINE bool flecs_table_column_lock_read_begin(
     return flecs_table_column_lock_inc(table, column_index) <= 0;
 }
 
-FLECS_ALWAYS_INLINE bool flecs_table_column_lock_read_begin_multithreaded(
+bool flecs_table_column_lock_read_begin_multithreaded(
     ecs_table_t *table,
     const int16_t column_index,
     const int32_t stage_id
@@ -2989,7 +2989,7 @@ FLECS_ALWAYS_INLINE bool flecs_table_column_lock_read_begin_multithreaded(
     return flecs_table_column_lock_inc_multithreaded(table, column_index, stage_id) <= 0;
 }
 
-FLECS_ALWAYS_INLINE bool flecs_table_column_lock_read_end(
+bool flecs_table_column_lock_read_end(
     ecs_table_t *table,
     const int16_t column_index
     )
@@ -2997,7 +2997,7 @@ FLECS_ALWAYS_INLINE bool flecs_table_column_lock_read_end(
     return flecs_table_column_lock_dec(table, column_index) < 0;
 }
 
-FLECS_ALWAYS_INLINE bool flecs_table_column_lock_read_end_multithreaded(
+bool flecs_table_column_lock_read_end_multithreaded(
     ecs_table_t *table,
     const int16_t column_index,
     const int32_t stage_id
@@ -3006,7 +3006,7 @@ FLECS_ALWAYS_INLINE bool flecs_table_column_lock_read_end_multithreaded(
     return flecs_table_column_lock_dec_multithreaded(table, column_index, stage_id) < 0;
 }
 
-FLECS_ALWAYS_INLINE bool flecs_table_column_lock_write_begin(
+bool flecs_table_column_lock_write_begin(
     ecs_table_t *table,
     const int16_t column_index
     )
@@ -3014,7 +3014,7 @@ FLECS_ALWAYS_INLINE bool flecs_table_column_lock_write_begin(
     return flecs_table_column_lock_dec(table, column_index) != -1;
 }
 
-FLECS_ALWAYS_INLINE bool flecs_table_column_lock_write_begin_multithreaded(
+bool flecs_table_column_lock_write_begin_multithreaded(
     ecs_table_t *table,
     const int16_t column_index,
     const int32_t stage_id
@@ -3023,7 +3023,7 @@ FLECS_ALWAYS_INLINE bool flecs_table_column_lock_write_begin_multithreaded(
     return flecs_table_column_lock_dec_multithreaded(table, column_index, stage_id) != -1;
 }
 
-FLECS_ALWAYS_INLINE bool flecs_table_column_lock_write_end(
+bool flecs_table_column_lock_write_end(
     ecs_table_t *table,
     const int16_t column_index
     )
@@ -3031,7 +3031,7 @@ FLECS_ALWAYS_INLINE bool flecs_table_column_lock_write_end(
     return flecs_table_column_lock_inc(table, column_index) != 0;
 }
 
-FLECS_ALWAYS_INLINE bool flecs_table_column_lock_write_end_multithreaded(
+bool flecs_table_column_lock_write_end_multithreaded(
     ecs_table_t *table,
     const int16_t column_index,
     const int32_t stage_id
