@@ -9373,6 +9373,61 @@ error:
     return 0;
 }
 
+const void* ecs_get_id(
+    const ecs_world_t *world,
+    ecs_entity_t entity,
+    ecs_id_t component)
+{
+    ecs_check(world != NULL, ECS_INVALID_PARAMETER, NULL);
+    flecs_assert_entity_valid(world, entity, "get");
+    ecs_check(ecs_id_is_valid(world, component) || ecs_id_is_wildcard(component), 
+        ECS_INVALID_PARAMETER, NULL);
+
+    world = ecs_get_world(world);
+
+    ecs_record_t *r = flecs_entities_get(world, entity);
+    ecs_assert(r != NULL, ECS_INVALID_PARAMETER, NULL);
+
+    ecs_table_t *table = r->table;
+    ecs_assert(table != NULL, ECS_INTERNAL_ERROR, NULL);
+
+    if (component < FLECS_HI_COMPONENT_ID) {
+        if (!world->non_trivial_lookup[component]) {
+            ecs_get_low_id(table, r, component);
+            return NULL;
+        }
+    }
+
+    ecs_component_record_t *cr = flecs_components_get(world, component);
+    if (!cr) {
+        return NULL;
+    }
+
+    if (cr->flags & EcsIdDontFragment) {
+        void *ptr = flecs_component_sparse_get(world, cr, table, entity);
+        if (ptr) {
+            return ptr;
+        }
+    }
+
+    const ecs_table_record_t *tr = flecs_component_get_table(cr, table);
+    if (!tr) {
+        return flecs_get_base_component(world, table, component, cr, 0);
+    } else {
+        if (cr->flags & EcsIdSparse) {
+            return flecs_component_sparse_get(world, cr, table, entity);
+        }
+        ecs_check(tr->column != -1, ECS_INVALID_PARAMETER,
+            "component '%s' passed to get() is a tag/zero sized",
+                flecs_errstr(ecs_id_str(world, component)));
+    }
+
+    int32_t row = ECS_RECORD_TO_ROW(r->row);
+    return flecs_table_get_component(table, tr->column, row).ptr;
+error:
+    return NULL;
+}
+
 ecs_get_ptr_t flecs_record_get_id(
     const ecs_world_t *world,
     ecs_entity_t entity,
